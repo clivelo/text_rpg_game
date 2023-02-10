@@ -50,7 +50,11 @@ public abstract class Adventurer {
     }
 
     public String toString() {
-        String s = "---------------\n  Stats Sheet  \n---------------\n";
+        String s = "";
+        for (int i = 0; i < 100; i++) {
+            s += "\n";
+        }
+        s += "---------------\n  Stats Sheet  \n---------------\n";
         s += String.format("%s\nLVL: %d\n\nHP: %d/%d\nMP: %d/%d\n\nAttack: %d\nDefense: %d\nM. Attack: %d\nM. Defense: %d\nSpeed: %d\n\n%d EXP to next level\n---------------\n",
         this.get_player_class(), this.get_level(), this.get_curr_hp(), this.get_max_hp(), this.get_curr_magic(), this.get_max_magic(), this.get_attack(), this.get_defense(),
         this.get_magic_attack(), this.get_magic_defense(), this.get_speed(), this.get_max_exp() - this.get_curr_exp());
