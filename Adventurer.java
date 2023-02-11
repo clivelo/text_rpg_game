@@ -31,9 +31,9 @@ public abstract class Adventurer {
         this.speed = speed;
     }
 
-    public abstract void attack();
+    public abstract void attack(Enemy enemy);
 
-    public abstract void magic_attack();
+    public abstract void magic_attack(Enemy enemy);
 
     public void level_up(int hp_modifier, int magic_modifier, int attack_modifier, int defense_modifier, int magic_attack_modifier, int magic_defense_modifier, int speed_modifier) {
         this.level++;
@@ -47,6 +47,10 @@ public abstract class Adventurer {
         this.magic_attack += magic_attack_modifier;
         this.magic_defense += magic_defense_modifier;
         this.speed += speed_modifier;
+    }
+
+    public boolean isAlive() {
+        return this.curr_hp <= 0;
     }
 
     public String toString() {

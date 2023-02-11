@@ -74,7 +74,8 @@ public class Game {
     }
 
     public static void explore(Adventurer player) {
-        
+        Enemy enemy = new Goblin(player.get_level());
+        System.out.println(enemy.toString());
     }
 
     public static void show_stats(Adventurer player) {

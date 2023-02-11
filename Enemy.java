@@ -25,9 +25,13 @@ public abstract class Enemy {
         this.speed = speed;
     }
 
-    public abstract void attack();
+    public abstract void attack(Adventurer player);
 
-    public abstract void magic_attack();
+    public abstract void magic_attack(Adventurer player);
+
+    public boolean isAlive() {
+        return this.curr_hp <= 0;
+    }
 
     public String toString() {
         String s = "---------------------\n  ENEMY ENCOUNTERED  \n---------------------\n";
