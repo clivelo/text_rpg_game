@@ -12,6 +12,7 @@ public abstract class Enemy {
     private int magic_defense;
     private int speed;
     private int exp;
+    private int gold;
 
     public Enemy(String enemy_class, int max_hp, int max_mp, int attack, int defense, int magic_attack, int magic_defense, int speed) {
         this.enemy_class = enemy_class;
@@ -24,7 +25,8 @@ public abstract class Enemy {
         this.magic_attack = magic_attack;
         this.magic_defense = magic_defense;
         this.speed = speed;
-        this.exp = (int) ((this.max_hp + this.max_mp) / 5 * (1 + Math.random() - 0.5));
+        this.exp = (int) ((this.max_hp + this.max_mp) / 7 * (1 + Math.random() - 0.5));
+        this.gold = (int) (this.speed * (1 + Math.random() - 0.5));
     }
 
     public abstract void attack(Adventurer player, int amount, int attack_type);
@@ -94,5 +96,9 @@ public abstract class Enemy {
 
     public int get_exp() {
         return this.exp;
+    }
+
+    public int get_gold() {
+        return this.gold;
     }
 }

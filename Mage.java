@@ -3,10 +3,10 @@ package text_adventure_game;
 public class Mage extends Adventurer {
     private static final String player_class = "Mage";
 
-    private static int base_hp = 210;
+    private static int base_hp = 330;
     private static int base_mp = 220;
     private static int base_attack = 3;
-    private static int base_defense = 5;
+    private static int base_defense = 6;
     private static int base_magic_attack = 12;
     private static int base_magic_defense = 10;
     private static int base_speed = 10;

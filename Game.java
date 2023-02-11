@@ -191,10 +191,14 @@ public class Game {
                 }
             } else if (!enemy.isAlive()) {
                 int exp = enemy.get_exp();
-                System.out.printf("YOU WON! YOU'VE EARNED %d EXP.\n", exp);
+                int gold = enemy.get_gold();
+                System.out.printf("YOU WON! YOU'VE EARNED %d EXP AND %d GOLD.\n", exp, gold);
                 player.set_curr_exp(player.get_curr_exp() + exp);
+                player.set_gold(player.get_gold() + gold);
                 break;
             } else {
+                System.out.println("YOU HAVE DIED!");
+                player.revive();
                 break;
             }
             sc.nextLine();
@@ -205,10 +209,7 @@ public class Game {
     }
 
     public static void show_stats(Adventurer player) {
-        print_gap();
-
         System.out.println(player.toString());
-        enter_to_continue();
     }
 
     public static void main(String[] args) {
@@ -230,13 +231,24 @@ public class Game {
                     explore(player);
                     break;
                 case 2:
+                    print_gap();
                     show_stats(player);
+                    enter_to_continue();
                     break;
                 case 3:
                     quit_game = true;
                     break;
             }
+
+            if (!player.isAlive()) {
+                print_gap();
+                System.out.println("RIP IN MEMORIAM");
+                show_stats(player);
+                System.out.println("Game Over.");
+                quit_game = true;
+                enter_to_continue();
+            }
         }
-        System.out.println("Thank you for playing!");
+        System.out.println("\nThank you for playing!");
     }
 }

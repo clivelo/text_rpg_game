@@ -3,7 +3,7 @@ package text_adventure_game;
 public class DarkElf extends Enemy {
     private static final String enemy_class = "Dark Elf";
 
-    private static int base_hp = 85;
+    private static int base_hp = 105;
     private static int base_mp = 105;
     private static int base_attack = 3;
     private static int base_defense = 4;
@@ -11,7 +11,7 @@ public class DarkElf extends Enemy {
     private static int base_magic_defense = 10;
     private static int base_speed = 12;
 
-    private static int hp_modifier = 6;
+    private static int hp_modifier = 14;
     private static int mp_modifier = 11;
     private static int attack_modifier = 1;
     private static int defense_modifier = 3;

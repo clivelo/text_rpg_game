@@ -3,15 +3,15 @@ package text_adventure_game;
 public class Goblin extends Enemy {
     private static final String enemy_class = "Goblin";
 
-    private static int base_hp = 110;
+    private static int base_hp = 130;
     private static int base_mp = 40;
-    private static int base_attack = 9;
+    private static int base_attack = 8;
     private static int base_defense = 5;
     private static int base_magic_attack = 1;
     private static int base_magic_defense = 4;
     private static int base_speed = 9;
 
-    private static int hp_modifier = 11;
+    private static int hp_modifier = 20;
     private static int mp_modifier = 6;
     private static int attack_modifier = 3;
     private static int defense_modifier = 3;
