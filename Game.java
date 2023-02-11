@@ -44,10 +44,10 @@ public class Game {
 
             switch (option) {
                 case 1:
-                    player = new Warrior();
+                    player = (Warrior) new Warrior();
                     break;
                 case 2:
-                    player = new Mage();
+                    player = (Mage) new Mage();
                     break;   
             }
 
@@ -73,12 +73,140 @@ public class Game {
         return option;
     }
 
+    public static void print_combat(Adventurer player, Enemy enemy, int turn) {
+        if (!player.isAlive() || !enemy.isAlive()) {
+            System.out.println("------------  Turn End  ------------");
+        } else {
+            System.out.printf("------------  Turn %d  ------------\n", turn);
+        }
+        System.out.printf("%-22s%s\n", player.get_player_class(), enemy.get_enemy_class());
+        System.out.printf("%-22s%s\n", "HP: " + player.get_curr_hp() + "/" + player.get_max_hp(), "HP: " + enemy.get_curr_hp() + "/" + enemy.get_max_hp());
+        System.out.printf("%-22s%s\n", "MP: " + player.get_curr_mp() + "/" + player.get_max_mp(), "MP: " + enemy.get_curr_mp() + "/" + enemy.get_max_mp());
+    }
+
+    public static void attack(Adventurer player, Enemy enemy, int attack_type) {
+        int p_atk, p_def, e_atk, e_def;
+        float phy_atk_chance = ((float) enemy.get_attack() / (enemy.get_attack() + enemy.get_magic_attack()));
+        System.out.printf("%d %d %f\n", enemy.get_attack(), enemy.get_magic_attack(), phy_atk_chance);
+        int dmg;
+        int go_first = 1;
+
+        if (attack_type == 1) {
+            p_atk = player.get_attack();
+            e_def = enemy.get_defense();
+            
+        } else {
+            p_atk = player.get_magic_attack();
+            e_def = enemy.get_magic_defense();
+        }
+
+        if (Math.random() < phy_atk_chance) {
+            e_atk = enemy.get_attack();
+            p_def = player.get_defense();
+        } else {
+            e_atk = enemy.get_magic_attack();
+            p_def = player.get_magic_defense();
+        }
+
+        if (player.get_speed() == enemy.get_speed()) {
+            if (Math.random() >= 0.5) {
+                go_first = 1;
+            } else {
+                go_first = 2;
+            }
+        } else if (player.get_speed() > enemy.get_speed()) {
+            go_first = 1;
+        } else {
+            go_first = 2;
+        }
+
+        if (go_first == 1) {
+            dmg = p_atk * 3 - e_def;
+            if (dmg < 1) { dmg = 1; }
+            player.attack(enemy, dmg, attack_type);
+            System.out.printf("%s dealt %d damage to %s.\n", player.get_player_class(), dmg, enemy.get_enemy_class());
+
+            if (!enemy.isAlive()) { return; }
+
+            dmg = e_atk * 3 - p_def;
+            if (dmg < 1) { dmg = 1; }
+            enemy.attack(player, dmg, attack_type);
+            System.out.printf("%s dealt %d damage to %s.\n", enemy.get_enemy_class(), dmg, player.get_player_class());
+
+        } else {
+            dmg = e_atk * 3 - p_def;
+            if (dmg < 1) { dmg = 1; }
+            enemy.attack(player, dmg, attack_type);
+            System.out.printf("%s dealt %d damage to %s.\n", enemy.get_enemy_class(), dmg, player.get_player_class());
+
+            if (!player.isAlive()) { return; }
+
+            dmg = p_atk * 3 - e_def;
+            if (dmg < 1) { dmg = 1; }
+            player.attack(enemy, dmg, attack_type);
+            System.out.printf("%s dealt %d damage to %s.\n", player.get_player_class(), dmg, enemy.get_enemy_class());
+        }
+    }
+
+    public static boolean run_away() {
+        return Math.random() >= 0.5;
+    }
+
     public static void explore(Adventurer player) {
+        print_gap();
+
         Enemy enemy = new Goblin(player.get_level());
         System.out.println(enemy.toString());
+
+        int option = -1;
+        int turn = 0;
+        boolean game_end = false;
+        while (!game_end) {
+            print_combat(player, enemy, ++turn);
+            if (player.isAlive() && enemy.isAlive()) {
+                System.out.println("1. Attack     2. Magic Attack     3. Run");
+
+                while (true) {
+                    System.out.print("Choose an action: ");
+                    option = validate_input(3);
+                    if (option == -1) { continue; }
+                    break;
+                }
+
+                switch (option) {
+                    case 1:
+                        attack(player, enemy, 1);
+                        break;
+                    case 2:
+                        attack(player, enemy, 2);
+                        break;
+                    case 3:
+                        if (run_away()) {
+                            game_end = true;
+                            System.out.println("YOU SUCCESSFULLY RAN AWAY.");
+                        } else {
+                            System.out.println("FAILED TO RUN AWAY.");
+                        }
+                        break;
+                }
+            } else if (!enemy.isAlive()) {
+                int exp = enemy.get_exp();
+                System.out.printf("YOU WON! YOU'VE EARNED %d EXP.\n", exp);
+                player.set_curr_exp(player.get_curr_exp() + exp);
+                break;
+            } else {
+                break;
+            }
+            sc.nextLine();
+            System.out.println();
+        }
+
+        enter_to_continue();
     }
 
     public static void show_stats(Adventurer player) {
+        print_gap();
+
         System.out.println(player.toString());
         enter_to_continue();
     }

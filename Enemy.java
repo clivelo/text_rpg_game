@@ -4,39 +4,46 @@ public abstract class Enemy {
     private String enemy_class;
     private int max_hp;
     private int curr_hp;
-    private int max_magic;
-    private int curr_magic;
+    private int max_mp;
+    private int curr_mp;
     private int attack;
     private int defense;
     private int magic_attack;
     private int magic_defense;
     private int speed;
+    private int exp;
 
-    public Enemy(String enemy_class, int max_hp, int max_magic, int attack, int defense, int magic_attack, int magic_defense, int speed) {
+    public Enemy(String enemy_class, int max_hp, int max_mp, int attack, int defense, int magic_attack, int magic_defense, int speed) {
         this.enemy_class = enemy_class;
         this.max_hp = max_hp;
         this.curr_hp = max_hp;
-        this.max_magic = max_magic;
-        this.curr_magic = max_magic;
+        this.max_mp = max_mp;
+        this.curr_mp = max_mp;
         this.attack = attack;
         this.defense = defense;
         this.magic_attack = magic_attack;
         this.magic_defense = magic_defense;
         this.speed = speed;
+        this.exp = (int) ((this.max_hp + this.max_mp) / 5 * (1 + Math.random() - 0.5));
     }
 
-    public abstract void attack(Adventurer player);
-
-    public abstract void magic_attack(Adventurer player);
+    public abstract void attack(Adventurer player, int amount, int attack_type);
 
     public boolean isAlive() {
-        return this.curr_hp <= 0;
+        return this.curr_hp > 0;
     }
+
+    // public String toString() {
+    //     String s = "---------------------\n  ENEMY ENCOUNTERED  \n---------------------\n";
+    //     s += String.format("%s\n\nHP: %d/%d\nMP: %d/%d\n---------------------\n",
+    //     this.get_enemy_class(), this.get_curr_hp(), this.get_max_hp(), this.get_curr_mp(), this.get_max_mp());
+    //     return s;
+    // }
 
     public String toString() {
         String s = "---------------------\n  ENEMY ENCOUNTERED  \n---------------------\n";
         s += String.format("%s\n\nHP: %d/%d\nMP: %d/%d\n\nAttack: %d\nDefense: %d\nM. Attack: %d\nM. Defense: %d\nSpeed: %d\n---------------------\n",
-        this.get_enemy_class(), this.get_curr_hp(), this.get_max_hp(), this.get_curr_magic(), this.get_max_magic(), this.get_attack(), this.get_defense(),
+        this.get_enemy_class(), this.get_curr_hp(), this.get_max_hp(), this.get_curr_mp(), this.get_max_mp(), this.get_attack(), this.get_defense(),
         this.get_magic_attack(), this.get_magic_defense(), this.get_speed());
         return s;
     }
@@ -53,12 +60,16 @@ public abstract class Enemy {
         return this.curr_hp;
     }
 
-    public int get_max_magic() {
-        return this.max_magic;
+    public void set_curr_hp(int curr_hp) {
+        this.curr_hp = curr_hp;
     }
 
-    public int get_curr_magic() {
-        return this.curr_magic;
+    public int get_max_mp() {
+        return this.max_mp;
+    }
+
+    public int get_curr_mp() {
+        return this.curr_mp;
     }
 
     public int get_attack() {
@@ -79,5 +90,9 @@ public abstract class Enemy {
 
     public int get_speed() {
         return this.speed;
+    }
+
+    public int get_exp() {
+        return this.exp;
     }
 }
